@@ -1,34 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World</title>
-    <style>
-      article {
-        max-width: 38rem;
-        padding: 2rem;
-        margin: auto;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-      }
-    </style>
-    <script>
-      class HelloWorld extends HTMLElement {
-        constructor() {
-          super();
-          console.log("HelloWorld constructor was invoked.");
-        }
-      }
-      window.customElements.define('hello-world', HelloWorld);
-    </script>
-  </head>
-  <body>
-    <article>
-      <h1>Hello World of Web Components</h1>
-      <p>This is a web components demo! Now let's go:</p>
-      <!-- DANGER -->
-      <!-- WEB COMPONENTS -->
-      <!-- BEYOND THIS POINT -->
-      <hello-world></hello-world>
-    </article>
-  </body>
+<head>
+    <meta charset="UTF-8">
+
+    <!-- WebComponent definition -->
+    <script src="hello_world.js"></script>
+
+    <title>Title</title>
+</head>
+<body>
+    <!-- use of WebComponent -->
+    <hello-world id="myComponent" get-data-method="getData"></hello-world>
+
+</body>
+
+<script>
+    function getData() {
+        return [1, 3, 3, 7];
+    }
+</script>
+
 </html>

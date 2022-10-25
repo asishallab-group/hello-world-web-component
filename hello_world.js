@@ -1,19 +1,35 @@
-// ES6 class
-      class HelloWorld extends HTMLParagraphElement {
-        // constructor is called when the element is displayed
-        constructor() {
-          super();
-          // create a shadow dom
-          const shadow = this.attachShadow({ mode: "closed" });
-          // create a span element
-          const text = document.createElement("span");
-          // set the content to 'Hello World'
-          text.textContent = 'Hello World';
-          // insert our created element into our shadow DOM, causing it to appear
-          shadow.appendChild(text);
-        }
-      }
+let getDataMethodName;
+let data;
 
-      // make sure that the <hello-world></hello-world>
-      // or simply <hello-world /> is recognised as this element
-      customElements.define("hello-world", HelloWorld, { extends: "p" });
+class HelloWorld extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        getDataMethodName = this.getAttribute('get-data-method');
+    }
+}
+
+window.addEventListener('load',
+    () => {
+        window.customElements.define("hello-world", HelloWorld);
+        tryToGetData();
+    }, false);
+
+function tryToGetData() {
+    let getDataFunction = window[getDataMethodName];
+    data = getDataFunction();
+    visualizeData(data);
+}
+
+function visualizeData(data) {
+    addDataParagraph(data);
+    console.log(data);
+}
+
+function addDataParagraph(data) {
+    /*const p = "<p>data: " + JSON.stringify(data) + "</p>";
+    const pElement = document.createElement();
+    pElement.innerHTML = p;
+    document.getElementById("myComponent").shadowRoot.appendChild(pElement);
+    this.shadowRoot.appendChild(p.cloneNode(true));*/
+}
