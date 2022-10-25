@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
   <head>
     <meta charset="UTF-8" />
     <title>Hello World</title>
@@ -32,3 +33,34 @@
     </article>
   </body>
 </html>
+=======
+<head>
+    <meta charset="UTF-8">
+
+    <!-- WebComponent definition -->
+    <script src="hello_world.js"></script>
+
+    <title>Title</title>
+</head>
+<body>
+
+    <h2>Employee Card Example</h2>
+
+    <!-- use of WebComponent -->
+    <hello-world name="Leah Crystal" avatar="image.jpg" get-data-method="getData"></hello-world>
+
+    <div slot="id"><strong>ID:</strong> 238</div>
+    <div slot="job title"><strong>Job Title:</strong> Database Administrator</div>
+    <div slot="email"><strong>Email:</strong> lcrystal34@gmail.com</div>
+    <div slot="phone"><strong>Phone:</strong> 292-856-410</div>
+
+</body>
+
+<script>
+    function getData() {
+        return [1, 3, 3, 7];
+    }
+</script>
+
+</html>
+>>>>>>> master

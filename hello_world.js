@@ -1,19 +1,48 @@
-// ES6 class
-      class HelloWorld extends HTMLParagraphElement {
-        // constructor is called when the element is displayed
-        constructor() {
-          super();
-          // create a shadow dom
-          const shadow = this.attachShadow({ mode: "closed" });
-          // create a span element
-          const text = document.createElement("span");
-          // set the content to 'Hello World'
-          text.textContent = 'Hello World';
-          // insert our created element into our shadow DOM, causing it to appear
-          shadow.appendChild(text);
-        }
-      }
+const template = document.createElement('template');
+template.innerHTML = `
+<style>
+  .employee-card {
+    font-family: sans-serif;
+    background: #f4f6f7;
+    width: 250px;
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-bottom: 10px;
+  }
+</style>
+<div class="employee-card">
+  <img/>
+  <div>
+    <h3></h3>
+  </div>
+</div>`;
 
-      // make sure that the <hello-world></hello-world>
-      // or simply <hello-world /> is recognised as this element
-      customElements.define("hello-world", HelloWorld, { extends: "p" });
+let getDataMethodName;
+let data;
+
+class HelloWorld extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.shadowRoot.querySelector('h3').innerText = this.getAttribute('name');
+        this.shadowRoot.querySelector('img').src = this.getAttribute('avatar');
+        getDataMethodName = this.getAttribute('get-data-method');
+    }
+}
+
+window.addEventListener('load',
+    () => {
+        window.customElements.define("hello-world", HelloWorld);
+        tryToGetData();
+    }, false);
+
+function tryToGetData() {
+    let getDataFunction = window[getDataMethodName];
+    data = getDataFunction();
+    visualizeData(data);
+}
+
+function visualizeData(data) {
+    console.log(data);
+}
