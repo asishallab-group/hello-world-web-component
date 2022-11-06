@@ -1,5 +1,4 @@
 let getDataMethodName;
-let data;
 
 class HelloWorld extends HTMLElement {
     constructor() {
@@ -17,8 +16,9 @@ window.addEventListener('load',
 
 function tryToGetData() {
     let getDataFunction = window[getDataMethodName];
-    data = getDataFunction();
-    visualizeData(data);
+    getDataFunction().then(r => {
+        visualizeData(r);
+    });
 }
 
 function visualizeData(data) {
