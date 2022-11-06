@@ -1,9 +1,10 @@
 let getDataMethodName;
+let shadow;
 
 class HelloWorld extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        shadow = this.attachShadow({mode: 'open'});
         getDataMethodName = this.getAttribute('get-data-method');
     }
 }
@@ -27,9 +28,5 @@ function visualizeData(data) {
 }
 
 function addDataParagraph(data) {
-    /*const p = "<p>data: " + JSON.stringify(data) + "</p>";
-    const pElement = document.createElement();
-    pElement.innerHTML = p;
-    document.getElementById("myComponent").shadowRoot.appendChild(pElement);
-    this.shadowRoot.appendChild(p.cloneNode(true));*/
+    shadow.innerHTML = "<p>data: " + JSON.stringify(data) + "</p>";
 }
