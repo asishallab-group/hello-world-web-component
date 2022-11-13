@@ -1,16 +1,17 @@
+const getDataMethodNameAttribute = 'dataLoader';
 let getDataMethodName;
 let shadow;
 const dataDiv = document.createElement("div");
 // const plotlyImport = document.createElement('script');
 
-class HelloWorld extends HTMLElement {
+class DataVis extends HTMLElement {
     constructor() {
         super();
         shadow = this.attachShadow({mode: 'open'});
         shadow.innerHTML = "<div id='shadowDiv'></div>";
         loadExternalJS("https://cdn.plot.ly/plotly-2.16.1.min.js");
         addElementsToShadowDom();
-        getDataMethodName = this.getAttribute('get-data-method');
+        getDataMethodName = this.getAttribute(getDataMethodNameAttribute);
     }
 }
 
@@ -25,7 +26,7 @@ function addElementsToShadowDom() {
 
 window.addEventListener('load',
     () => {
-        window.customElements.define("hello-world", HelloWorld);
+        window.customElements.define("data-vis", DataVis);
         tryToGetData();
     }, false);
 
