@@ -14,7 +14,10 @@ function validateData(data) {
         if (data.length % 2 === 0) {
             resolve();
         } else {
-            reject('some error message.');
+            reject({
+                shortMessage: 'some error message.',
+                longMessage: 'this is a longer form of the error message.'
+            });
         }
     });
 }

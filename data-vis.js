@@ -27,8 +27,12 @@ class DataVis extends HTMLElement {
 function tryToGetData() {
     let getDataFunction = window[getDataMethodName];
     getDataFunction().then(r => {
-        validateData(r);
-
-        analyzeAndVisualizeData(r, dataDiv);
+        validateData(r).then(() => {
+            analyzeAndVisualizeData(r, dataDiv);
+        }).catch((errorMessage) => {
+            dataDiv.innerText = errorMessage.shortMessage;
+            dataDiv.style.color = 'red';
+            console.log(errorMessage.longMessage);
+        });
     });
 }
