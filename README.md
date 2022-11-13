@@ -1,3 +1,1 @@
-# Current Problems:
-- defining names in the html js and the web component js can have name collisions
-- getData function has no validation
+# [Example](web-component-test.html) on how to use the Web Component
