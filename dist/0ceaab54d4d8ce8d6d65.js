@@ -1,1 +1,0 @@
-const delay=a=>new Promise((e=>setTimeout(e,a)));window.getValidData=async()=>(await delay(1e3),{x:[1999,2e3,2001,2002],y:[10,15,13,17]}),window.getAnotherValidData=async()=>(await delay(1e3),{x:[1,2,3,4,5,6,7,8,9],y:[1,2,3,4,5,6,7,8,9]}),window.getInvalidData=async()=>(await delay(2e3),[[1,2,3]]),window.syncFn=()=>[[1,2,3],[4,5,6]];
