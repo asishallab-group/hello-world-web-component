@@ -1,14 +1,10 @@
-// These import lines will work only when you start a webserver
-// you can either use IntelliJ IDE which do it automatically
-// or you can use node.js server, for example (or XAMPP, WAMP, OpenServer if you are on Windows)
-
-// TO RUN WITHOUT A SERVER: Comment out the 2 lower lines
+import ShadowStyleStr from "./css/shadow-style.css";
 import {DataVis} from "./data-vis.js";
-import "https://cdn.plot.ly/plotly-2.16.2.min.js"
+import Plotly from "plotly.js-dist";
 
 class ScatterPlot extends DataVis {
     constructor() {
-        super('css/shadow-style.css');
+        super(ShadowStyleStr); // pass css text as an argument
     }
 
     async validateData() {

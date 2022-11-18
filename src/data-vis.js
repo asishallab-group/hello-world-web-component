@@ -1,4 +1,3 @@
-// TO RUN WITHOUT A SERVER: Remove "export" statement
 export class DataVis extends HTMLElement {
     static get attrNames() {
         return {
@@ -9,31 +8,30 @@ export class DataVis extends HTMLElement {
     static loadingClassName = "loading";
     static plotSpaceClassName = "plot-space";
     static errorMsgClassName = "error-msg";
+
     dataLoaderFn = null;
     data = null;
 
     #shadow = null;
     plotSpace = null;
 
-    constructor(styleSheetSrc) {
+    constructor(ShadowStyleStr) {
         super();
-        // this.styleSheetSrc = styleSheetSrc;
         this.#checkMethodsImplemented()
-        this.#createShadowDom(styleSheetSrc)
+        this.#createShadowDom(ShadowStyleStr)
     }
 
 
-    #createShadowDom(styleSheetSrc) {
+    #createShadowDom(ShadowStyleStr) {
         this.#shadow = this.attachShadow({mode: 'closed'});
-        this.#createShadowStyle(styleSheetSrc)
+        this.#createShadowStyle(ShadowStyleStr)
         this.#createPlotSpace()
     }
 
 
-    #createShadowStyle(styleSheetSrc) {
-        let style = document.createElement("link");
-        style.rel = "stylesheet";
-        style.href = styleSheetSrc;
+    #createShadowStyle(ShadowStyleStr) {
+        let style = document.createElement("style");
+        style.innerHTML = ShadowStyleStr;
 
         this.#shadow.appendChild(style)
     }
