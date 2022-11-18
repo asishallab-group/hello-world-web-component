@@ -8,7 +8,7 @@ import "https://cdn.plot.ly/plotly-2.16.2.min.js"
 
 class ScatterPlot extends DataVis {
     constructor() {
-        super();
+        super('css/shadow-style.css');
     }
 
     async validateData() {

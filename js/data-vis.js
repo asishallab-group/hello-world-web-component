@@ -7,93 +7,34 @@ export class DataVis extends HTMLElement {
     };
 
     static loadingClassName = "loading";
-    static stylesheet = `
-        .plot-space {
-            height: 500px;
-            width: 100%;
-            /*display: block;*/
-            border: 1px black dashed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .error-msg {
-            position: relative;
-            color: red;
-            text-align: center;
-            font-weight: 600;
-        }
-        
-        .error-msg::before {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            right: 0;
-            content: "\\274c";
-            font-size: 12px; 
-            color: red;
-        }
-        
-        .loading::after{
-            content: "";
-            box-sizing: border-box;
-            display: block;
-            width: 64px;
-            height: 64px;
-            margin: 8px;
-            border: 8px solid #fff;
-            border-radius: 50%;
-            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-            border-color: blue transparent transparent transparent;
-        }
-        
-        .loading {
-            position: relative;
-        }
-        
-        .loading::after:nth-child(1) {
-            animation-delay: -0.45s;
-        }
-        .loading::after:nth-child(2) {
-            animation-delay: -0.3s;
-        }
-        .loading::after:nth-child(3) {
-            animation-delay: -0.15s;
-        }
-        @keyframes lds-ring {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    `;
-
+    static plotSpaceClassName = "plot-space";
+    static errorMsgClassName = "error-msg";
     dataLoaderFn = null;
     data = null;
 
     #shadow = null;
     plotSpace = null;
 
-    constructor() {
+    constructor(styleSheetSrc) {
         super();
+        // this.styleSheetSrc = styleSheetSrc;
         this.#checkMethodsImplemented()
-        this.#createShadowDom()
+        this.#createShadowDom(styleSheetSrc)
     }
 
 
-    #createShadowDom() {
+    #createShadowDom(styleSheetSrc) {
         this.#shadow = this.attachShadow({mode: 'closed'});
-        this.#createShowStyle()
+        this.#createShadowStyle(styleSheetSrc)
         this.#createPlotSpace()
     }
 
 
-    #createShowStyle() {
-        let style = document.createElement("style");
-        style.textContent = DataVis.stylesheet;
+    #createShadowStyle(styleSheetSrc) {
+        let style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.href = styleSheetSrc;
+
         this.#shadow.appendChild(style)
     }
 
@@ -101,7 +42,8 @@ export class DataVis extends HTMLElement {
     #createPlotSpace() {
         this.plotSpace = document.createElement('div');
         this.#shadow.appendChild(this.plotSpace);
-        this.plotSpace.classList.add("plot-space");
+        this.plotSpace.classList.add(DataVis.plotSpaceClassName);
+        this.plotSpace.part.add(DataVis.plotSpaceClassName);
     }
 
 
@@ -129,7 +71,8 @@ export class DataVis extends HTMLElement {
     displayError(userErrorText, consoleErrorText) {
         let errorElement = document.createElement('p')
         errorElement.textContent = userErrorText;
-        errorElement.classList.add("error-msg");
+        errorElement.classList.add(DataVis.errorMsgClassName);
+        errorElement.part.add(DataVis.errorMsgClassName);
         this.plotSpace.appendChild(errorElement);
 
         this.#hideLoadingSpinner();
