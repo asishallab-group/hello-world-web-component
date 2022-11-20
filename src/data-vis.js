@@ -31,25 +31,25 @@ export class DataVis extends HTMLElement {
 
     /**
      * constructor, should be called by super() inside classes that extend this class
-     * @param ShadowStyleStr - string of styles, that will be applied to all shadow elements
+     * @param shadowStylesStr - string of styles, that will be applied to all shadow elements
      */
-    constructor(ShadowStyleStr) {
+    constructor(shadowStylesStr) {
         super();
         this.#checkMethodsImplemented()
-        this.#createShadowDom(ShadowStyleStr)
+        this.#createShadowDom(shadowStylesStr)
     }
 
 
-    #createShadowDom(ShadowStyleStr) {
+    #createShadowDom(shadowStylesStr) {
         this.#shadow = this.attachShadow({mode: 'closed'});
-        this.#createShadowStyle(ShadowStyleStr)
+        this.#createShadowStyle(shadowStylesStr)
         this.#createPlotSpace()
     }
 
 
-    #createShadowStyle(ShadowStyleStr) {
+    #createShadowStyle(shadowStylesStr) {
         let style = document.createElement("style");
-        style.innerHTML = ShadowStyleStr;
+        style.innerHTML = shadowStylesStr;
 
         this.#shadow.appendChild(style)
     }
