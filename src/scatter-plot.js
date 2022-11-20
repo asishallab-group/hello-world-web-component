@@ -1,16 +1,16 @@
-// These import lines will work only when you start a webserver
-// you can either use IntelliJ IDE which do it automatically
-// or you can use node.js server, for example (or XAMPP, WAMP, OpenServer if you are on Windows)
-
-// TO RUN WITHOUT A SERVER: Comment out the 2 lower lines
+import ShadowStylesStr from "./css/shadow-style.css?inline";
 import {DataVis} from "./data-vis.js";
-import "https://cdn.plot.ly/plotly-2.16.2.min.js"
+import Plotly from "plotly.js-dist";
 
 class ScatterPlot extends DataVis {
     constructor() {
-        super();
+        super(ShadowStylesStr); // pass css url as an argument
     }
 
+    /**
+     * gets data from dataLoader function, validates it and
+     * saves validated data to the "data" class field
+     */
     async validateData() {
         let data = await this.dataLoaderFn();
 
@@ -30,6 +30,9 @@ class ScatterPlot extends DataVis {
     }
 
 
+    /**
+     * analyses and visualises data from the "data" class field
+     */
     analyzeAndVisualizeData() {
         let data = [{
             x: this.data.x,
@@ -55,7 +58,9 @@ class ScatterPlot extends DataVis {
     }
 }
 
-
+/**
+ * binds the ScatterPlot class to the <scatter-plot> tag, when the page is loaded
+ */
 window.addEventListener('load', () => {
     window.customElements.define('scatter-plot', ScatterPlot);
 })

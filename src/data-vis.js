@@ -1,4 +1,3 @@
-// TO RUN WITHOUT A SERVER: Remove "export" statement
 export class DataVis extends HTMLElement {
     static get attrNames() {
         return {
@@ -7,104 +6,69 @@ export class DataVis extends HTMLElement {
     };
 
     static loadingClassName = "loading";
-    static stylesheet = `
-        .plot-space {
-            height: 500px;
-            width: 100%;
-            /*display: block;*/
-            border: 1px black dashed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .error-msg {
-            position: relative;
-            color: red;
-            text-align: center;
-            font-weight: 600;
-        }
-        
-        .error-msg::before {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            right: 0;
-            content: "\\274c";
-            font-size: 12px; 
-            color: red;
-        }
-        
-        .loading::after{
-            content: "";
-            box-sizing: border-box;
-            display: block;
-            width: 64px;
-            height: 64px;
-            margin: 8px;
-            border: 8px solid #fff;
-            border-radius: 50%;
-            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-            border-color: blue transparent transparent transparent;
-        }
-        
-        .loading {
-            position: relative;
-        }
-        
-        .loading::after:nth-child(1) {
-            animation-delay: -0.45s;
-        }
-        .loading::after:nth-child(2) {
-            animation-delay: -0.3s;
-        }
-        .loading::after:nth-child(3) {
-            animation-delay: -0.15s;
-        }
-        @keyframes lds-ring {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    `;
+    static plotSpaceClassName = "plot-space";
+    static errorMsgClassName = "error-msg";
 
+    /**
+     * instance of a validated function, specified in dataLoader attribute
+     */
     dataLoaderFn = null;
+
+    /**
+     * validated data from dataLoader function
+     */
     data = null;
 
+    /**
+     * shadowDOM element
+     */
     #shadow = null;
+
+    /**
+     * Element, where the plot should be drawn
+     */
     plotSpace = null;
 
-    constructor() {
+    /**
+     * constructor, should be called by super() inside classes that extend this class
+     * @param shadowStylesStr - string of styles, that will be applied to all shadow elements
+     */
+    constructor(shadowStylesStr) {
         super();
         this.#checkMethodsImplemented()
-        this.#createShadowDom()
+        this.#createShadowDom(shadowStylesStr)
     }
 
 
-    #createShadowDom() {
+    #createShadowDom(shadowStylesStr) {
         this.#shadow = this.attachShadow({mode: 'closed'});
-        this.#createShowStyle()
+        this.#createShadowStyle(shadowStylesStr)
         this.#createPlotSpace()
     }
 
 
-    #createShowStyle() {
+    #createShadowStyle(shadowStylesStr) {
         let style = document.createElement("style");
-        style.textContent = DataVis.stylesheet;
+        style.innerHTML = shadowStylesStr;
+
         this.#shadow.appendChild(style)
     }
 
 
+    /**
+     * PlotSpace - element, where the plot should be drawn
+     */
     #createPlotSpace() {
         this.plotSpace = document.createElement('div');
         this.#shadow.appendChild(this.plotSpace);
-        this.plotSpace.classList.add("plot-space");
+        this.plotSpace.classList.add(DataVis.plotSpaceClassName);
+        this.plotSpace.part.add(DataVis.plotSpaceClassName);
     }
 
 
+    /**
+     * Checks if all required methods are implemented
+     */
     #checkMethodsImplemented() {
         if (this.validateData === undefined) {
             this.displayError(
@@ -121,15 +85,30 @@ export class DataVis extends HTMLElement {
         }
     }
 
+    /**
+     * Shows loading spinner
+     */
     #showLoadingSpinner() {
         this.plotSpace.classList.add(DataVis.loadingClassName)
     }
 
+    /**
+     * Hides loading spinner
+     */
+    #hideLoadingSpinner() {
+        this.plotSpace.classList.remove(DataVis.loadingClassName)
+    }
 
+    /**
+     * Shows 2 messages: one for user (on the page) and throws an exception win message for developer
+     * @param userErrorText - short message for user
+     * @param consoleErrorText - full message for developer
+     */
     displayError(userErrorText, consoleErrorText) {
         let errorElement = document.createElement('p')
         errorElement.textContent = userErrorText;
-        errorElement.classList.add("error-msg");
+        errorElement.classList.add(DataVis.errorMsgClassName);
+        errorElement.part.add(DataVis.errorMsgClassName);
         this.plotSpace.appendChild(errorElement);
 
         this.#hideLoadingSpinner();
@@ -137,12 +116,9 @@ export class DataVis extends HTMLElement {
         throw consoleErrorText;
     }
 
-
-    #hideLoadingSpinner() {
-        this.plotSpace.classList.remove(DataVis.loadingClassName)
-    }
-
-
+    /**
+     * Method is called when web component is initialized
+     */
     async connectedCallback() {
         this.#showLoadingSpinner();
 
@@ -153,12 +129,18 @@ export class DataVis extends HTMLElement {
         this.#hideLoadingSpinner();
     }
 
-
+    /**
+     * Getter for dataLoader attribute
+     * @returns {string}
+     */
     get dataLoaderAttr() {
         return this.getAttribute(DataVis.attrNames.dataLoader);
     }
 
 
+    /**
+     * Validated if dataLoader function is valid and saves it to variable for future use
+     */
     #connectDataLoaderFunction() {
         if(this.dataLoaderAttr === "") {
             this.displayError(
