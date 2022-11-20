@@ -7,6 +7,10 @@ class ScatterPlot extends DataVis {
         super(ShadowStyleStr); // pass css text as an argument
     }
 
+    /**
+     * gets data from dataLoader function, validates it and
+     * saves validated data to the "data" class field
+     */
     async validateData() {
         let data = await this.dataLoaderFn();
 
@@ -26,6 +30,9 @@ class ScatterPlot extends DataVis {
     }
 
 
+    /**
+     * analyses and visualises data from the "data" class field
+     */
     analyzeAndVisualizeData() {
         let data = [{
             x: this.data.x,
@@ -51,7 +58,9 @@ class ScatterPlot extends DataVis {
     }
 }
 
-
+/**
+ * binds the ScatterPlot class to the <scatter-plot> tag, when the page is loaded
+ */
 window.addEventListener('load', () => {
     window.customElements.define('scatter-plot', ScatterPlot);
 })

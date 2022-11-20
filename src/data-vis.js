@@ -9,12 +9,30 @@ export class DataVis extends HTMLElement {
     static plotSpaceClassName = "plot-space";
     static errorMsgClassName = "error-msg";
 
+    /**
+     * instance of a validated function, specified in dataLoader attribute
+     */
     dataLoaderFn = null;
+
+    /**
+     * validated data from dataLoader function
+     */
     data = null;
 
+    /**
+     * shadowDOM element
+     */
     #shadow = null;
+
+    /**
+     * Element, where the plot should be drawn
+     */
     plotSpace = null;
 
+    /**
+     * constructor, should be called by super() inside classes that extend this class
+     * @param ShadowStyleStr - string of styles, that will be applied to all shadow elements
+     */
     constructor(ShadowStyleStr) {
         super();
         this.#checkMethodsImplemented()
@@ -37,6 +55,9 @@ export class DataVis extends HTMLElement {
     }
 
 
+    /**
+     * PlotSpace - element, where the plot should be drawn
+     */
     #createPlotSpace() {
         this.plotSpace = document.createElement('div');
         this.#shadow.appendChild(this.plotSpace);
@@ -45,6 +66,9 @@ export class DataVis extends HTMLElement {
     }
 
 
+    /**
+     * Checks if all required methods are implemented
+     */
     #checkMethodsImplemented() {
         if (this.validateData === undefined) {
             this.displayError(
@@ -61,11 +85,25 @@ export class DataVis extends HTMLElement {
         }
     }
 
+    /**
+     * Shows loading spinner
+     */
     #showLoadingSpinner() {
         this.plotSpace.classList.add(DataVis.loadingClassName)
     }
 
+    /**
+     * Hides loading spinner
+     */
+    #hideLoadingSpinner() {
+        this.plotSpace.classList.remove(DataVis.loadingClassName)
+    }
 
+    /**
+     * Shows 2 messages: one for user (on the page) and throws an exception win message for developer
+     * @param userErrorText - short message for user
+     * @param consoleErrorText - full message for developer
+     */
     displayError(userErrorText, consoleErrorText) {
         let errorElement = document.createElement('p')
         errorElement.textContent = userErrorText;
@@ -78,12 +116,9 @@ export class DataVis extends HTMLElement {
         throw consoleErrorText;
     }
 
-
-    #hideLoadingSpinner() {
-        this.plotSpace.classList.remove(DataVis.loadingClassName)
-    }
-
-
+    /**
+     * Method is called when web component is initialized
+     */
     async connectedCallback() {
         this.#showLoadingSpinner();
 
@@ -94,12 +129,18 @@ export class DataVis extends HTMLElement {
         this.#hideLoadingSpinner();
     }
 
-
+    /**
+     * Getter for dataLoader attribute
+     * @returns {string}
+     */
     get dataLoaderAttr() {
         return this.getAttribute(DataVis.attrNames.dataLoader);
     }
 
 
+    /**
+     * Validated if dataLoader function is valid and saves it to variable for future use
+     */
     #connectDataLoaderFunction() {
         if(this.dataLoaderAttr === "") {
             this.displayError(
