@@ -1,6 +1,7 @@
 import ShadowStylesStr from "./css/shadow-style.css?inline";
 import {DataVis} from "./data-vis.js";
 import Plotly from "plotly.js-dist";
+import "./pca/pca.js";
 
 class ScatterPlot extends DataVis {
     constructor() {
@@ -8,7 +9,7 @@ class ScatterPlot extends DataVis {
     }
 
     /**
-     * gets data from dataLoader function, validates it and
+     * Gets data from dataLoader function, validates it and
      * saves validated data to the "data" class field
      */
     async validateData() {
@@ -31,7 +32,7 @@ class ScatterPlot extends DataVis {
 
 
     /**
-     * analyses and visualises data from the "data" class field
+     * Analyses and visualises data from the "data" class field
      */
     analyzeAndVisualizeData() {
         let data = [{
@@ -59,7 +60,7 @@ class ScatterPlot extends DataVis {
 }
 
 /**
- * binds the ScatterPlot class to the <scatter-plot> tag, when the page is loaded
+ * Binds the ScatterPlot class to the <scatter-plot> tag, when the page is loaded
  */
 window.addEventListener('load', () => {
     window.customElements.define('scatter-plot', ScatterPlot);

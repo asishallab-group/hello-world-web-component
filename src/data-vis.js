@@ -5,22 +5,33 @@ export class DataVis extends HTMLElement {
         };
     };
 
+    /**
+     * CSS Class name that is applied when out plot is loading
+     */
     static loadingClassName = "loading";
+
+    /**
+     * CSS Class name of a block, where the plot would be drawn
+     */
     static plotSpaceClassName = "plot-space";
+
+    /**
+     * CSS Class name of a block, containing error message
+     */
     static errorMsgClassName = "error-msg";
 
     /**
-     * instance of a validated function, specified in dataLoader attribute
+     * Instance of a validated function, specified in dataLoader attribute
      */
     dataLoaderFn = null;
 
     /**
-     * validated data from dataLoader function
+     * Validated data from dataLoader function
      */
     data = null;
 
     /**
-     * shadowDOM element
+     * ShadowDOM element
      */
     #shadow = null;
 
@@ -30,7 +41,7 @@ export class DataVis extends HTMLElement {
     plotSpace = null;
 
     /**
-     * constructor, should be called by super() inside classes that extend this class
+     * Constructor, should be called by super() inside classes that extend this class
      * @param shadowStylesStr - string of styles, that will be applied to all shadow elements
      */
     constructor(shadowStylesStr) {
@@ -39,14 +50,20 @@ export class DataVis extends HTMLElement {
         this.#createShadowDom(shadowStylesStr)
     }
 
-
+    /**
+     * Create shadow DOM
+     * @param shadowStylesStr - a string containing css styles
+     */
     #createShadowDom(shadowStylesStr) {
         this.#shadow = this.attachShadow({mode: 'closed'});
         this.#createShadowStyle(shadowStylesStr)
         this.#createPlotSpace()
     }
 
-
+    /**
+     * Apply styling for shadow DOM
+     * @param shadowStylesStr - a string containing css styles
+     */
     #createShadowStyle(shadowStylesStr) {
         let style = document.createElement("style");
         style.innerHTML = shadowStylesStr;
@@ -56,7 +73,7 @@ export class DataVis extends HTMLElement {
 
 
     /**
-     * PlotSpace - element, where the plot should be drawn
+     * Create a block, where the plot would be drawn
      */
     #createPlotSpace() {
         this.plotSpace = document.createElement('div');
