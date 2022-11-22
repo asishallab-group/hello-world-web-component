@@ -1,3 +1,5 @@
+# [Example](web-component-test.html) on how to use the Web Component
+
 ## How to run the project
 
 This project uses [Vite](https://vitejs.dev/)
