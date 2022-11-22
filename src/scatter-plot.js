@@ -1,11 +1,10 @@
 import ShadowStylesStr from "./css/shadow-style.css?inline";
 import {DataVis} from "./data-vis.js";
 import Plotly from "plotly.js-dist";
-import "./pca/pca.js";
 
 class ScatterPlot extends DataVis {
     constructor() {
-        super(ShadowStylesStr); // pass css url as an argument
+        super(ShadowStylesStr); // pass css string as an argument
     }
 
     /**

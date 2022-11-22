@@ -12,8 +12,6 @@
     "vite": "^3.2.3"
   },
   "dependencies": {
-    "ml-dataset-iris": "^1.2.1",
-    "ml-pca": "^4.1.1",
     "plotly.js": "^1.47.4",
     "plotly.js-dist": "^2.16.3"
   }
