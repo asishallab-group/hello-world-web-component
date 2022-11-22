@@ -117,7 +117,7 @@ export class DataVis extends HTMLElement {
     }
 
     /**
-     * Shows 2 messages: one for user (on the page) and throws an exception win message for developer
+     * Shows 2 messages: one for user (on the page) and throws an exception with message for developer
      * @param userErrorText - short message for user
      * @param consoleErrorText - full message for developer
      */
